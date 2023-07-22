@@ -19,6 +19,27 @@ pub fn process_part1(input: &str) -> String {
         .to_string()
 }
 
+pub fn process_part2(input: &str) -> String {
+    input
+        .lines()
+        .collect::<Vec<&str>>()
+        .chunks(3)
+        .map(|chunk| {
+            let part_1 = chunk.get(0).unwrap();
+            let part_2 = chunk.get(1).unwrap();
+            let part_3 = chunk.get(2).unwrap();
+
+            let found = part_1
+                .chars()
+                .find(|c| part_2.contains(*c) && part_3.contains(*c))
+                .unwrap();
+
+            return char_to_priority(found).unwrap();
+        })
+        .sum::<u32>()
+        .to_string()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -30,5 +51,11 @@ mod tests {
         let result = process_part1(INPUT);
         println!("{result}");
         assert_eq!(result, "157");
+    }
+
+    #[test]
+    fn part2_works() {
+        let result = process_part2(INPUT);
+        assert_eq!(result, "70");
     }
 }
